@@ -1,41 +1,42 @@
-from math import sin,cos,pi
-import random
+from math import sqrt
 
-dt = 0.1
+#konstanter:
+G = 6.6743 * 10^(-11) m^3 kg^(-1) s^(-2)
+Msol = 5.972 * 10^24 kg
+r = 5,20340176 * 10^23
+dt = 60 * 60 * 24 #tid under en dag, ändra detta för att ändra tidspann
+
+def setup():
+    size(700,700) #sätt storleken av fönstret
+
+    sun = (0,0,0,0) # bestäm position av sol
+    planet = () #bestäm postiton av planet 
 t = 0
 
 x = 300
 y = 300
-vx = 20 
+vx = 0 
 vy = 0
 
-theta = []
-num_points = 100
 
-def setup():
-    global x, y, theta, num_points
-    size(600,600) 
+ # F = G((Mm)/(r^2))
+    # krafterna:
+        # Fx = -Fcosa = (-Fx)/r
+        # Fy = -Fsina = (-Fy)/r
+    #Således blir accelerationerna: 
+        #ax = -G(Mx)/(r^3)
+        #ay = -G(My)/(r^3) 
         
-def draw():
-    global t, dt, x, y, vx, vy 
-    t += dt
-    
-    x += vx*dt
-    y += vy*dt
-    
-    vy += 9.82*dt
-    
-    if x<100:
-        vx = abs(vx)*0.95
-    elif x>500:
-        vx = -abs(vx)*0.95
-    
-    if y>500:
-        vy = -abs(vy)*0.95
-    #background(3);
-    
-    stroke(0, 125, 255, 50)
-    fill(0, 125, 255, 20)
-    circle(x,y,10)
-        
+    #massa svart hål = 4.3 miljoner solmassor = 4,3 * 10^6 * (8,5527*10^36) kg
+    #Radie svart hål = 1,2 * 10^9 meter 
 
+
+vy += (-G) * Msol * x / (r**3) 
+vx += (-G) * Msol * y / (r**3)
+
+x += vx * dt
+y += vy * dt
+    
+def acceleration: 
+    x =
+    y = 
