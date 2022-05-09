@@ -1,11 +1,10 @@
 from math import sqrt
 
 #konstanter:
-G = 6.6743E-11)
+G = 6.6743E-11
 sun = {}
 jord = {}
 moon = {}
-l = 1.505 * 10^11 #avstånd mellan sol och jord 
 dt = 60 * 60 * 24 #anger tidspann, en dag 
 
 def setup():
@@ -20,7 +19,7 @@ def setup():
     sun["vy"] = 0
 
     jord["m"] = 5.972E24
-    jord["x"] = 1.496E11
+    jord["x"] = 1.5102E11
     jord["y"] = 0
     jord["vx"] = 0 
     jord["vy"] = 4.075E7
@@ -28,7 +27,7 @@ def setup():
     jord["ay"] = 0 
 
     moon["m"] = 0.07346E24
-    moon["x"] =  #vad står denna för?
+    moon["x"] =  1.50635E11
     moon["y"] = 0
     moon["vx"] = 0 
     moon["vy"] = 3.7E6
