@@ -147,3 +147,26 @@ def draw():
 
 #x += vx * dt
 #y += vy * dt
+
+
+for y in global sun, jord, moon:
+    dx(y)= sun['x'] - y['x']
+    dy(y) = sun['y'] - y['y']
+    l(y) = (dx(y)**2 + dy(y)*2)**0.5
+
+    Fg(y) = G*sun['m']*y['m']/l(y)**2
+    # gravitational force komposants
+    Fgx(y) = Fg(y) * dx(y)/l(y)
+    Fgy(y) = Fg(y) * dy(y)/l(y)
+
+
+    y['ax'] += Fgxm/y['m']
+    y['ay'] += Fgym/y['m']
+    # Updatera positionen
+    y['vx'] += y['ax']*dt
+    y['vy'] += y['ay']*dt
+    y['x'] += y['vx']*dt
+    y['y'] += y['vy']*dt
+    # nollställ acceleration efter reset
+    y['ax'] = 0
+    y['ay'] = 0
