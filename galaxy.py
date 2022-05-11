@@ -149,7 +149,7 @@ def draw():
 #y += vy * dt
 
 
-for y in sun, jord, moon:
+for jord:
     dx(y)= sun['x'] - y['x']
     dy(y) = sun['y'] - y['y']
     l(y) = (dx(y)**2 + dy(y)*2)**0.5
