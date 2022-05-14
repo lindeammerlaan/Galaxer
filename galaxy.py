@@ -1,4 +1,4 @@
-  from math import sqrt
+from math import sqrt
 
 #konstanter
 G = 6.67408E-11
