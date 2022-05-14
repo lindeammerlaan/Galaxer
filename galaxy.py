@@ -1,103 +1,145 @@
 from math import sqrt
 
-#konstanter:
-G = 6.6743E-11
+#konstanter
+G = 6.67408E-11
+dt = 60*60*24 # Time step one day
 sun = {}
-jord = {}
+earth = {}
 moon = {}
-dt = 60 * 60 * 24 #anger tidspann, en dag 
+mercury = {}
+venus = {}
+mars = {}
+
+himlakroppar = [earth, venus, mercury, mars, moon]
 
 def setup():
-    global sun, jord, moon
-    size(600,600) #sätt storleken av fönstret
+    global sun, earth, moon, venus, mercury, mars
+    size(600,600) # Sets the size of the window
+    
+    sun  = {}
+    sun["m"] = 1.989E30
+    sun["x"] = 0
+    sun["y"] = 0
+    sun["vx"] = 0
+    sun["vy"] = 0
 
-    sun = {}
-    sun['m'] = 1.989E30
-    sun['x'] = 0
-    sun['y'] = 0
-    sun['vx'] = 0
-    sun['vy'] = 0
-
-    jord['m'] = 5.972E24
-    jord['x'] = 2.5102E11
-    jord['y'] = 0
-    jord['vx'] = 0 
-    jord['vy'] = 2.5E4
-    jord['ax'] = 0 
-    jord['ay'] = 0 
-
+    earth["m"] = 5.972E24
+    earth["x"] = 2E11
+    earth["y"] = 0
+    earth["vx"] = 0 
+    earth["vy"] = 2.5E4
+    earth["ax"] = 0 
+    earth["ay"] = 0 
+    
     moon['m'] = 0.07346E24
-    moon['x'] = 2.5102E11 + 300000*1000 #1.50635E11
+    moon['x'] = 3.4902E11
     moon['y'] = 0
     moon['vx'] = 0 
-    moon['vy'] = 2.5E4
+    moon['vy'] = 2.3E4
     moon['ax'] = 0 
     moon['ay'] = 0 
+    
+    mercury['m'] = 3.285E23
+    mercury['x'] = 66.02E9
+    mercury['y'] = 0
+    mercury['vx'] = 0 
+    mercury['vy'] = 4.7E4
+    mercury['ax'] = 0 
+    mercury['ay'] = 0 
+    
+    venus['m'] = 4.867E24
+    venus['x'] = 1.0894E11
+    venus['y'] = 0
+    venus['vx'] = 0 
+    venus['vy'] = 3.5E4
+    venus['ax'] = 0 
+    venus['ay'] = 0 
+    
+    mars['m'] = 6.39E23
+    mars['x'] = 2.5E11
+    mars['y'] = 0
+    mars['vx'] = 0 
+    mars['vy'] = 2.4130E4
+    mars['ax'] = 0 
+    mars['ay'] = 0 
 
 def show(himlakropp, typ):
+    # Scale system to show 5 earth orbits on screen
     a = 1.496E11
-    x_pixel = himlakropp['x']*300/5.0/1.496E11 + 300 #(self.x/a+0.5)*300
-    y_pixel = himlakropp['y']*300/5.0/1.496E11 + 300 #(self.y/a+0.5)*300
-
-    if typ == 'sol':
-        fill(252, 243, 207)
+    x_pixel = himlakropp["x"]*300/5.0/1.496E11 + 300 #(self.x/a+0.5)*300
+    y_pixel = himlakropp["y"]*300/5.0/1.496E11 + 300 #(self.y/a+0.5)*300
+    
+    if typ == 'sun':
+        fill(255, 212, 59)
         ellipse(x_pixel, y_pixel, 40, 40)
-    elif typ == 'jord':
-        fill(29, 131, 72)
+    elif typ == 'earth':
+        fill(62, 176, 73)
         ellipse(x_pixel, y_pixel, 20, 20)
     elif typ == 'moon':
         fill(128, 139, 150)
         ellipse(x_pixel, y_pixel, 10, 10)
-
-def location():
-    global sun, jord, moon
-    #här sker beräkningen av gravitationella kraften beroende på distansen mellan sol och himlakropp
-
-    dxe = sun['x'] - jord['x']
-    dye = sun['y'] - jord['y']
-    le = (dxe**2 + dye**2)**0.5
-
-    Fge = G*sun['m']*jord['m']/le**2
+    elif typ == 'mercury':
+        fill(116, 142, 196)
+        ellipse(x_pixel, y_pixel, 10, 10)
+    elif typ == 'venus':
+        fill(248, 156, 14)
+        ellipse(x_pixel, y_pixel, 15, 15)
+    elif typ == 'mars':
+        fill(139,35,35)
+        ellipse(x_pixel, y_pixel, 12, 12)
+    
+    
+def update_positions():
+    global sun, earth, mercury, venus, mars
+    
+    for himlakropp in himlakroppar:
+        # calculate the gravitational force from distance between planet and sun
+        dx = sun["x"] - himlakropp["x"]
+        dy = sun["y"] - himlakropp["y"]
+        l = (dx**2 + dy**2)**0.5
+    
+    # gravitational force 
+        Fg = G*sun["m"]*himlakropp["m"]/l**2
     # gravitational force komposants
+        Fgx = Fg * dx/l
+        Fgy = Fg * dy/l
+
+        himlakropp["ax"] += Fgx/himlakropp["m"]
+        himlakropp["ay"] += Fgy/himlakropp["m"]
+        # Updating the position
+        himlakropp["vx"] += himlakropp["ax"]*dt
+        himlakropp["vy"] += himlakropp["ay"]*dt
+        himlakropp["x"] += himlakropp["vx"]*dt
+        himlakropp["y"] += himlakropp["vy"]*dt
+        # reset acc after update
+        himlakropp["ax"] = 0
+        himlakropp["ay"] = 0
+    
+def update_moonposition():
+    global earth, moon, sun 
+
+    dxe = earth['x'] - moon['x']
+    dye = earth['y'] - moon['y']
+    le = (dxe**2 + dye**2)**0.5
+    
+    Fge = G*earth['m']*moon['m']/le**2
+        # gravitational force komposants
     Fgxe = Fge * dxe/le
     Fgye = Fge * dye/le
-
-    #här sker beräkningen av gravitationella kraften beroende på distansen mellan jord och måne
-    dxm = jord['x'] - moon['x']
-    dym = jord['y'] - moon['y']
-    lm = (dxm**2 + dym**2)**0.5
-
-    Fgm = G*jord['m']*moon['m']/lm**2
-    # gravitational force komposants
-    Fgxm = Fgm * dxm/lm
-    Fgym = Fgm * dym/lm
     
-    #Här sker beräkningen av gravitationella kraften beroende på distansen till solen
     dxs = sun['x'] - moon['x']
     dys = sun['y'] - moon['y']
     ls = (dxs**2 + dys**2)**0.5
 
-    Fgs = G*sun['m']*moon['m']/ls**2
+    Fgs = G*earth['m']*moon['m']/ls**2
     # gravitational force komposants
     Fgxs = Fgs * dxs/ls
     Fgys = Fgs * dys/ls
-
-
-    jord['ax'] += Fgxe/jord['m']
-    jord['ay'] += Fgye/jord['m']
+    
+    moon['ax'] += (Fgxe + Fgxs)/moon['m']
+    moon['ay'] += (Fgye + Fgys)/moon['m']
     # Updatera positionen
-    jord['vx'] += jord['ax']*dt
-    jord['vy'] += jord['ay']*dt
-    jord['x'] += jord['vx']*dt
-    jord['y'] += jord['vy']*dt
-    # nollställ acceleration efter reset
-    jord['ax'] = 0
-    jord['ay'] = 0
-
-    moon['ax'] += (Fgxm + Fgxs)/moon['m']
-    moon['ay'] += (Fgym + Fgys)/moon['m']
-    # Updatera positionen
-    moon['vx'] += moon['ax']*dt
+    moon['vx'] += moon['m']*dt
     moon['vy'] += moon['ay']*dt
     moon['x'] += moon['vx']*dt
     moon['y'] += moon['vy']*dt
@@ -105,68 +147,18 @@ def location():
     moon['ax'] = 0
     moon['ay'] = 0
     
+
 def draw():
-    global sol, jord, moon
-    background(31, 97,141); #mörkblå bakgrundsfärg 
-
-    location()
-
-    show(sun, 'sol')
-    show(jord, 'jord')
+    global sun, earth, mercury, moon, venus, mars
+    background(3);  # svart bakgrund
+    
+    update_positions()
+    update_moonposition()
+    
+    show(sun, 'sun')
+    show(earth, 'earth')
     show(moon, 'moon')
-
-
-
-
-#beräkna gravitationskraften från avståndet mellan planet och sol
-# # #dx = solx - jordx
-    #dy = soly - jordy
-    #l =  5,20340176 * 10^23
-
-    #gravitationskrafterna: 
-    #Fg = G * Msol * Mjord / (l**2)
-        # gravitational force komposants
-       # Fgx = Fg * dx/l
-       # Fgy = Fg * dy/l
-
-
- # F = G((Mm)/(r^2))
-    # krafterna:
-        # Fx = -Fcosa = (-Fx)/r
-        # Fy = -Fsina = (-Fy)/r
-    #Således blir accelerationerna: 
-        #ax = -G(Mx)/(r^3)
-        #ay = -G(My)/(r^3) 
-        
-    #massa svart hål = 4.3 miljoner solmassor = 4,3 * 10^6 * (8,5527*10^36) kg
-    #Radie svart hål = 1,2 * 10^9 meter 
-
-
-#vy += (-G) * Msol * x / (r**3) 
-#vx += (-G) * Msol * y / (r**3)
-
-#x += vx * dt
-#y += vy * dt
-
-
-for jord:
-    dx(y)= sun['x'] - y['x']
-    dy(y) = sun['y'] - y['y']
-    l(y) = (dx(y)**2 + dy(y)*2)**0.5
-
-    Fg(y) = G*sun['m']*y['m']/l(y)**2
-    # gravitational force komposants
-    Fgx(y) = Fg(y) * dx(y)/l(y)
-    Fgy(y) = Fg(y) * dy(y)/l(y)
-
-
-    y['ax'] += Fgxm/y['m']
-    y['ay'] += Fgym/y['m']
-    # Updatera positionen
-    y['vx'] += y['ax']*dt
-    y['vy'] += y['ay']*dt
-    y['x'] += y['vx']*dt
-    y['y'] += y['vy']*dt
-    # nollställ acceleration efter reset
-    y['ax'] = 0
-    y['ay'] = 0
+    show(mercury, 'mercury')
+    show(venus, 'venus')
+    show(mars, 'mars')
+    
