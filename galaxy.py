@@ -19,7 +19,7 @@ himlakroppar = [earth, venus, mercury, mars, jupiter,moon, saturn, uranus, neptu
 
 def setup():
     global sun, earth, moon, venus, mercury, mars, jupiter, saturn, uranus, neptune
-    size(600,600) # Sets the size of the window
+    size(650,650) # Sets the size of the window
     
     sun  = {}
     sun["m"] = 1.989E30
@@ -93,7 +93,7 @@ def setup():
     uranus['ay'] = 0 
     
     neptune['m'] = 1E26
-    neptune['x'] = 9E11
+    neptune['x'] = 8E11
     neptune['y'] = 0
     neptune['vx'] = 0 
     neptune['vy'] = 5.4E3
@@ -111,7 +111,7 @@ def show(himlakropp, typ):
         ellipse(x_pixel, y_pixel, 40, 40)
     elif typ == 'earth':
         fill(62, 176, 73)
-        ellipse(x_pixel, y_pixel, 20, 20)
+        ellipse(x_pixel, y_pixel, 15, 15)
     elif typ == 'moon':
         fill(128, 139, 150)
         ellipse(x_pixel, y_pixel, 10, 10)
@@ -126,16 +126,16 @@ def show(himlakropp, typ):
         ellipse(x_pixel, y_pixel, 12, 12)
     elif typ == 'jupiter':
         fill(255,127,36)
-        ellipse(x_pixel, y_pixel, 20, 20)
+        ellipse(x_pixel, y_pixel, 25, 25)
     elif typ == 'saturn':
         fill(255,211,155)
-        ellipse(x_pixel, y_pixel, 20, 20)
+        ellipse(x_pixel, y_pixel, 22, 22)
     elif typ == 'neptune':
         fill(0,206,209)
-        ellipse(x_pixel, y_pixel, 17, 17)
+        ellipse(x_pixel, y_pixel, 20, 20)
     elif typ == 'uranus':
         fill(191,62,255)
-        ellipse(x_pixel, y_pixel, 15, 15)
+        ellipse(x_pixel, y_pixel, 20, 20)
     
     
 def update_positions():
@@ -206,4 +206,3 @@ def draw():
     show(saturn, 'saturn')
     show(uranus, 'uranus')
     show(neptune, 'neptune')
-      
