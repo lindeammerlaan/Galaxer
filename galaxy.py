@@ -3,6 +3,7 @@ from math import sqrt
 #konstanter
 G = 6.67408E-11
 dt = 60*60*24 # Tid = 1 dag
+
 sun = {}
 earth = {}
 moon = {}
@@ -15,11 +16,11 @@ uranus = {}
 neptune = {}
 
 
-himlakroppar = [earth, venus, mercury, mars, jupiter,moon, saturn, uranus, neptune]
+himlakroppar = [earth, venus, mercury, mars, jupiter, saturn, uranus, neptune]
 
 def setup():
     global sun, earth, moon, venus, mercury, mars, jupiter, saturn, uranus, neptune
-    size(650,650) # Sets the size of the window
+    size(600,600) # Sets the size of the window
     
     sun  = {}
     sun["m"] = 1.989E30
@@ -102,7 +103,6 @@ def setup():
 
 def show(himlakropp, typ):
     # Scale system to show 5 earth orbits on screen
-    a = 1.496E11
     x_pixel = himlakropp["x"]*300/5.0/1.496E11 + 300 #(self.x/a+0.5)*300
     y_pixel = himlakropp["y"]*300/5.0/1.496E11 + 300 #(self.y/a+0.5)*300
     
@@ -139,10 +139,9 @@ def show(himlakropp, typ):
     
     
 def update_positions():
-    global sun, earth, mercury, venus, mars
     
     for himlakropp in himlakroppar:
-        # 
+
         dx = sun["x"] - himlakropp["x"]
         dy = sun["y"] - himlakropp["y"]
         l = (dx**2 + dy**2)**0.5
